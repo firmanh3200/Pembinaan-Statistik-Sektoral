@@ -780,6 +780,7 @@ if wilayah_terpilih == 'Kota Banjar':
 st.subheader("", divider='green')
 with st.expander('BAHAN PEMBAHASAN FORUM SATU DATA:'):
     st.warning('Data-data tersebut dihasilkan dari kegiatan apa (MS-Keg)?')
+    st.info('Apakah kegiatan tersebut sudah meminta Rekomendasi Pembina Data?')
     st.success('Adakah data publik lain yang dihasilkan selain Daftar Data di atas?')
     st.warning('Data mana saja yang termasuk Data Prioritas Daerah?')
     st.info('Data mana saja yang akan dihasilkan kembali di tahun depan?')
