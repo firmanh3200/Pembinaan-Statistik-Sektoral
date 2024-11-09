@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import requests
+import plotly.express as px
 
 st.set_page_config(layout='wide')
 
@@ -35,7 +36,19 @@ if wilayah_terpilih == 'Jawa Barat':
 
     kolom_dipakai = ['nama_skpd', 'name']
 
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    df2 = df[~df['nama_skpd'].str.contains('PUSAT', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+    
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -63,6 +76,18 @@ if wilayah_terpilih == 'Bogor':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -90,6 +115,18 @@ if wilayah_terpilih == 'Sukabumi':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -117,6 +154,18 @@ if wilayah_terpilih == 'Cianjur':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -144,6 +193,18 @@ if wilayah_terpilih == 'Bandung':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -171,6 +232,18 @@ if wilayah_terpilih == 'Garut':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -198,6 +271,18 @@ if wilayah_terpilih == 'Tasikmalaya':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -225,6 +310,18 @@ if wilayah_terpilih == 'Ciamis':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -252,6 +349,18 @@ if wilayah_terpilih == 'Kuningan':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -279,6 +388,18 @@ if wilayah_terpilih == 'Cirebon':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -306,6 +427,19 @@ if wilayah_terpilih == 'Majalengka':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -333,6 +467,18 @@ if wilayah_terpilih == 'Sumedang':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -360,6 +506,18 @@ if wilayah_terpilih == 'Indramayu':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -387,6 +545,18 @@ if wilayah_terpilih == 'Subang':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -414,6 +584,18 @@ if wilayah_terpilih == 'Purwakarta':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -441,6 +623,18 @@ if wilayah_terpilih == 'Karawang':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -468,6 +662,18 @@ if wilayah_terpilih == 'Bekasi':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -495,6 +701,18 @@ if wilayah_terpilih == 'Bandung Barat':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -522,6 +740,18 @@ if wilayah_terpilih == 'Pangandaran':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -549,6 +779,18 @@ if wilayah_terpilih == 'Kota Bogor':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -576,6 +818,18 @@ if wilayah_terpilih == 'Kota Sukabumi':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -603,6 +857,18 @@ if wilayah_terpilih == 'Kota Bandung':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -630,6 +896,18 @@ if wilayah_terpilih == 'Kota Cirebon':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -657,6 +935,18 @@ if wilayah_terpilih == 'Kota Bekasi':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -684,6 +974,18 @@ if wilayah_terpilih == 'Kota Depok':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -711,6 +1013,18 @@ if wilayah_terpilih == 'Kota Cimahi':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -738,6 +1052,18 @@ if wilayah_terpilih == 'Kota Tasikmalaya':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
@@ -765,6 +1091,18 @@ if wilayah_terpilih == 'Kota Banjar':
     kolom_dipakai = ['nama_skpd', 'name']
 
     df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
+    
+    # Menghitung jumlah kemunculan setiap nama_skpd
+    df2_counts = df2['nama_skpd'].value_counts().reset_index()
+    df2_counts.columns = ['nama_skpd', 'count']
+
+    # Membuat chart
+    fig = px.treemap(df2_counts, path=['nama_skpd'], values='count', title='Jumlah Data per OPD')
+    # Menambahkan nilai count ke dalam label
+    fig.update_traces(textinfo='label+value')
+    with st.container(border=True):
+        st.plotly_chart(fig, use_container_width=True)
+        
     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
     opd = df2['nama_skpd'].unique()
