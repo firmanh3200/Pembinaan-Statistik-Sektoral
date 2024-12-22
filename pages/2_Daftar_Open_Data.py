@@ -21,6 +21,17 @@ st.success('Kondisi Real Time Open Data Jabar')
 
 wilayah_terpilih = st.selectbox("Pilih Wilayah", wilayah)
 
+custom_css = """
+<style>
+    .dataframe td {
+        white-space: pre-wrap;
+    }
+</style>
+"""
+
+# Menyisipkan CSS khusus
+st.markdown(custom_css, unsafe_allow_html=True)
+
 # 3200
 if wilayah_terpilih == 'Jawa Barat':
     # URL yang diberikan
@@ -67,6 +78,7 @@ if wilayah_terpilih == 'Jawa Barat':
 
     if opd_terpilih:
         df3 = df2[df2['Produsen Data'] == opd_terpilih]
+        
         st.dataframe(df3, use_container_width=True, hide_index=True)
         
 # 3201
