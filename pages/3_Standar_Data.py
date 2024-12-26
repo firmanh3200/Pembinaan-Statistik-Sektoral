@@ -10,6 +10,7 @@ st.title(':green[SATU DATA INDONESIA]')
 
 st.subheader('STANDAR DATA STATISTIK NASIONAL')
 st.success('Berdasarkan Keputusan Kepala Badan Pusat Statistik Nomor 850 Tahun 2023')
+st.caption('Lihat SDDS: https://indah.bps.go.id/standar-data-statistik-nasional')
 
 # Fungsi untuk mendapatkan data dari API dengan paginasi
 def get_all_data(base_url):
