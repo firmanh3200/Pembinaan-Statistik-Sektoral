@@ -79,7 +79,7 @@ with st.expander('PROSES BISNIS STATISTIK'):
     st.dataframe(lke3, hide_index=True, use_container_width=True)
     st.divider()
     kematangan3 = kematangan[kematangan['Kode'] == 3]
-    st.dataframe(kematangan1, hide_index=True, use_container_width=True)
+    st.dataframe(kematangan3, hide_index=True, use_container_width=True)
     penjelasan = lke3['Penjelasan Indikator'].to_list()
     st.success('Penjelasan Indikator')
     st.write(penjelasan)
