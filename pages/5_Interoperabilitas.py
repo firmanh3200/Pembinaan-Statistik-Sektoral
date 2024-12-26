@@ -90,7 +90,7 @@ kategori = lid['Keterangan'].unique()
 
 terpilih = st.selectbox('Pilih Kategori', kategori)
 if terpilih:
-    st.warning(f'terpilih')
+    st.warning(f'{terpilih}')
     tabel = lid[lid['Keterangan'] == terpilih]
     st.table(tabel)
 
