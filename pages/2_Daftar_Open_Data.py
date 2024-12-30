@@ -80,6 +80,40 @@ if wilayah_terpilih == 'Jawa Barat':
         df3 = df2[df2['Produsen Data'] == opd_terpilih]
         
         st.dataframe(df3, use_container_width=True, hide_index=True)
+        st.caption('Sumber: https://opendata.jabarprov.go.id/id/dataset')
+    
+    with st.expander(f'Daftar Metadata Statistik {opd_terpilih} JAWA BARAT pada SIRUSA'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}+Jawa+Barat" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.info(f'Daftar Metadata Statistik {opd_terpilih} JAWA BARAT pada SIRUSA')
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}+Jawa+Barat')
+
+    st.success('REFERENSI METADATA DAN REKOMENDASI')
+    #st.divider()    
+    with st.expander(f'Contoh Metadata Statistik {opd_terpilih} di Pemerintah Daerah lain'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.warning(f'Contoh Metadata Statistik {opd_terpilih} di Pemerintah Daerah lain')
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}')
+
+    with st.expander(f'Contoh Rancangan Kegiatan Statistik {opd_terpilih} di Pemerintah Daerah lain'):
+        st.success(f'Contoh Rancangan Kegiatan {opd_terpilih} selindo')
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://romantik.web.bps.go.id/rekomendasi-terbit?search={opd_terpilih}" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.warning(f'Contoh Rancangan Kegiatan Statistik {opd_terpilih} di Pemerintah Daerah lain')
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://romantik.web.bps.go.id/rekomendasi-terbit?search={opd_terpilih}')
         
 # 3201
 if wilayah_terpilih == 'Bogor':
@@ -1348,6 +1382,8 @@ if wilayah_terpilih == 'Kota Banjar':
     if opd_terpilih:
         df3 = df2[df2['Produsen Data'] == opd_terpilih]
         st.dataframe(df3, use_container_width=True, hide_index=True)
+
+
         
 st.subheader("", divider='green')
 with st.expander('BAHAN PEMBAHASAN FORUM SATU DATA:'):
