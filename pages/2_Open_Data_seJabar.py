@@ -9,15 +9,18 @@ st.title(':green[SATU DATA INDONESIA]')
 
 #st.header(':blue[Perpres No. 39 Tahun 2019]', divider='green')
 
-st.subheader('DAFTAR DATA STATISTIK SEKTORAL')
+st.subheader('DAFTAR DATA STATISTIK SEKTORAL KABUPATEN/KOTA DI JAWA BARAT')
 
-wilayah = ['Jawa Barat', 'Bogor', 'Sukabumi', 'Cianjur', 'Bandung', 'Garut', 'Tasikmalaya', 'Ciamis',
+wilayah = ['Bogor', 'Sukabumi', 'Cianjur', 'Bandung', 'Garut', 'Tasikmalaya', 'Ciamis',
            'Kuningan', 'Cirebon', 'Majalengka', 'Sumedang', 'Indramayu', 'Subang', 'Purwakarta',
            'Karawang', 'Bekasi', 'Bandung Barat', 'Pangandaran', 'Kota Bogor', 'Kota Sukabumi',
            'Kota Bandung', 'Kota Cirebon', 'Kota Bekasi', 'Kota Depok', 'Kota Cimahi',
            'Kota Tasikmalaya', 'Kota Banjar']
 
 st.success('Kondisi Real Time Open Data Jabar')
+st.warning('Statistik sektoral adalah statistik yang pemanfaatannya ditujukan untuk memenuhi \
+            kebutuhan instansi tertentu dalam rangka penyelenggaraan tugas-tugas pemerintahan \
+                dan pembangunan yang merupakan tugas pokok instansi yang bersangkutan.')
 
 wilayah_terpilih = st.selectbox("Pilih Wilayah", wilayah)
 
@@ -32,88 +35,88 @@ custom_css = """
 # Menyisipkan CSS khusus
 st.markdown(custom_css, unsafe_allow_html=True)
 
-# 3200
-if wilayah_terpilih == 'Jawa Barat':
-    # URL yang diberikan
-    url1 = "https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=%5B%22mdate%3Adesc%22%5D&limit=5000&skip=0&where=%5B%22dataset_class_id%3D3%22%2C%5B%22regional_id%3D1%22%5D%5D"
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=1"]]'
+# # 3200
+# if wilayah_terpilih == 'Jawa Barat':
+#     # URL yang diberikan
+#     url1 = "https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=%5B%22mdate%3Adesc%22%5D&limit=5000&skip=0&where=%5B%22dataset_class_id%3D3%22%2C%5B%22regional_id%3D1%22%5D%5D"
+#     url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=1"]]'
 
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
+#     # Mengambil data dari URL
+#     response = requests.get(url2)
+#     data = response.json()
 
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
+#     # Mengonversi data ke DataFrame pandas
+#     df = pd.DataFrame(data['data'])
 
-    kolom_dipakai = ['nama_skpd', 'name']
+#     kolom_dipakai = ['nama_skpd', 'name']
 
-    df2 = df[~df['nama_skpd'].str.contains('PUSAT', case=False, na=False)]
+#     df2 = df[~df['nama_skpd'].str.contains('PUSAT', case=False, na=False)]
     
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
+#     st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
+#     kol1, kol2 = st.columns(2)
+#     with kol1:
+#         # Menghitung jumlah kemunculan setiap nama_skpd
+#         df2_counts = df2['nama_skpd'].value_counts().reset_index()
+#         df2_counts.columns = ['nama_skpd', 'count']
 
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
+#         # Membuat chart
+#         fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
+#         # Menambahkan nilai count ke dalam label
+#         fig.update_traces(textinfo='label+value')
+#         with st.container(border=True):
+#             st.plotly_chart(fig, use_container_width=True)
+#     with kol2:
+#         with st.container(border=True):
+#             st.dataframe(df2_counts, use_container_width=True)
         
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
+#     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
 
-    opd = df2['nama_skpd'].unique()
+#     opd = df2['nama_skpd'].unique()
 
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
+#     df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
 
-    st.subheader("", divider='rainbow')
+#     st.subheader("", divider='rainbow')
 
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
+#     opd_terpilih = st.selectbox('Filter Produsen Data', opd)
 
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
+#     if opd_terpilih:
+#         df3 = df2[df2['Produsen Data'] == opd_terpilih]
         
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        st.caption('Sumber: https://opendata.jabarprov.go.id/id/dataset')
+#         st.dataframe(df3, use_container_width=True, hide_index=True)
+#         st.caption('Sumber: https://opendata.jabarprov.go.id/id/dataset')
     
-    with st.expander(f'Daftar Metadata Statistik {opd_terpilih} JAWA BARAT pada SIRUSA'):
-        # Embed URL in an iframe
-        iframe_code = f"""
-        <iframe src="https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}+Jawa+Barat" width="100%" height="600" style="border:none;"></iframe>
-        """
+#     with st.expander(f'Daftar Metadata Statistik {opd_terpilih} JAWA BARAT pada SIRUSA'):
+#         # Embed URL in an iframe
+#         iframe_code = f"""
+#         <iframe src="https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}+Jawa+Barat" width="100%" height="600" style="border:none;"></iframe>
+#         """
 
-        st.info(f'Daftar Metadata Statistik {opd_terpilih} JAWA BARAT pada SIRUSA')
-        st.markdown(iframe_code, unsafe_allow_html=True)
-        st.caption(f'Sumber: https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}+Jawa+Barat')
+#         st.info(f'Daftar Metadata Statistik {opd_terpilih} JAWA BARAT pada SIRUSA')
+#         st.markdown(iframe_code, unsafe_allow_html=True)
+#         st.caption(f'Sumber: https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}+Jawa+Barat')
 
-    st.success('REFERENSI METADATA DAN REKOMENDASI')
-    #st.divider()    
-    with st.expander(f'Contoh Metadata Statistik {opd_terpilih} di Pemerintah Daerah lain'):
-        # Embed URL in an iframe
-        iframe_code = f"""
-        <iframe src="https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}" width="100%" height="600" style="border:none;"></iframe>
-        """
+#     st.success('REFERENSI METADATA DAN REKOMENDASI')
+#     #st.divider()    
+#     with st.expander(f'Contoh Metadata Statistik {opd_terpilih} di Pemerintah Daerah lain'):
+#         # Embed URL in an iframe
+#         iframe_code = f"""
+#         <iframe src="https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}" width="100%" height="600" style="border:none;"></iframe>
+#         """
 
-        st.warning(f'Contoh Metadata Statistik {opd_terpilih} di Pemerintah Daerah lain')
-        st.markdown(iframe_code, unsafe_allow_html=True)
-        st.caption(f'Sumber: https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}')
+#         st.warning(f'Contoh Metadata Statistik {opd_terpilih} di Pemerintah Daerah lain')
+#         st.markdown(iframe_code, unsafe_allow_html=True)
+#         st.caption(f'Sumber: https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}')
 
-    with st.expander(f'Contoh Rancangan Kegiatan Statistik {opd_terpilih} di Pemerintah Daerah lain'):
-        st.success(f'Contoh Rancangan Kegiatan {opd_terpilih} selindo')
-        # Embed URL in an iframe
-        iframe_code = f"""
-        <iframe src="https://romantik.web.bps.go.id/rekomendasi-terbit?search={opd_terpilih}" width="100%" height="600" style="border:none;"></iframe>
-        """
+#     with st.expander(f'Contoh Rancangan Kegiatan Statistik {opd_terpilih} di Pemerintah Daerah lain'):
+#         st.success(f'Contoh Rancangan Kegiatan {opd_terpilih} selindo')
+#         # Embed URL in an iframe
+#         iframe_code = f"""
+#         <iframe src="https://romantik.web.bps.go.id/rekomendasi-terbit?search={opd_terpilih}" width="100%" height="600" style="border:none;"></iframe>
+#         """
 
-        st.warning(f'Contoh Rancangan Kegiatan Statistik {opd_terpilih} di Pemerintah Daerah lain')
-        st.markdown(iframe_code, unsafe_allow_html=True)
-        st.caption(f'Sumber: https://romantik.web.bps.go.id/rekomendasi-terbit?search={opd_terpilih}')
+#         st.warning(f'Contoh Rancangan Kegiatan Statistik {opd_terpilih} di Pemerintah Daerah lain')
+#         st.markdown(iframe_code, unsafe_allow_html=True)
+#         st.caption(f'Sumber: https://romantik.web.bps.go.id/rekomendasi-terbit?search={opd_terpilih}')
         
 # 3201
 if wilayah_terpilih == 'Bogor':
@@ -1395,6 +1398,7 @@ with st.expander('BAHAN PEMBAHASAN FORUM SATU DATA:'):
     st.success('Apakah data-data tersebut sudah mengacu pada Standar Data Statistik Nasional?')
     st.warning('Apakah sudah tersedia metadata (Kegiatan, Indikator, Variabel)?')
     st.info('Data mana saja yang sudah mengacu pada Data Induk Kementerian Pengampu?')
-
+    st.success('Apakah data-data tersebut dikemas dalam sebuah laporan dan dianalisis?')
+    
 st.divider()
 st.write('@BPS Provinsi Jawa Barat')
