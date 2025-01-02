@@ -56,7 +56,7 @@ for item in all_data:
     filtered_data.append(filtered_item)
 
 # Mengonversi data ke DataFrame pandas
-df = pd.DataFrame(filtered_data).sort_values(by=['Produsen Data', 'Data/ Indikator'])
+df = pd.DataFrame(filtered_data)
 df = df[df['Produsen Data'] != 'BADAN PUSAT STATISTIK']
 df = df[df['Produsen Data'] != 'INSTANSI VERTIKAL DAN KEMENTERIAN']
 
@@ -70,7 +70,7 @@ with st.container(border=True):
     if opd_terpilih:
         df3 = df2[df2['Produsen Data'] == opd_terpilih]
         jumlah_baris = df3.shape[0]
-
+        df3 = df3.sort_values(by=['Produsen Data', 'Data/ Indikator'])
         st.dataframe(df3, use_container_width=True, hide_index=True)
         st.caption('Sumber: https://opendata.jabarprov.go.id/id/dataset')
         
