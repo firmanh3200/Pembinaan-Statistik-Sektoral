@@ -123,3 +123,17 @@ with st.expander('STATISTIK NASIONAL'):
     penjelasan = lke5['Penjelasan Indikator'].to_list()
     st.success('Penjelasan Indikator')
     st.write(penjelasan)
+    
+st.success("Anda dapat bertanya tentang EPSS dengan menggunakan widget di bawah ini.")
+
+# Menambahkan widget Galichat
+chat_script = """
+<script
+  src="https://widget.galichat.com/gali-embeded.min.js" 
+  chat-hash="rlmgak3bta8qcma3e4p5rs" 
+  defer>
+</script>
+"""
+
+# Menyisipkan kode HTML ke dalam aplikasi Streamlit
+st.components.v1.html(chat_script, height=600)
