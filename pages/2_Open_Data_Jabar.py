@@ -12,6 +12,13 @@ st.success('Sumber: API Open Data Jabar')
 st.info('Statistik sektoral adalah statistik yang pemanfaatannya ditujukan untuk memenuhi \
             kebutuhan instansi tertentu dalam rangka penyelenggaraan tugas-tugas pemerintahan \
                 dan pembangunan yang merupakan tugas pokok instansi yang bersangkutan.')
+st.warning('Kamus Besar Bahasa Indonesia (KBBI) menjelaskan bahwa indikator \
+merupakan sesuatu yang dapat memberikan petunjuk atau \
+keterangan. Indikator juga bisa diartikan sebagai setiap ciri, \
+karakteristik, atau ukuran yang bisa menunjukkan perubahan yang \
+terjadi pada sebuah bidang tertentu.')
+
+st.success('Suatu indikator biasanya diawali dengan kata Jumlah, Persentase, Proporsi, Rasio, Indeks, Angka, atau Tingkat')
 
 # URL yang diberikan
 url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=%5B%22mdate%3Adesc%22%5D&limit=25&skip=0&where=%5B%22dataset_class_id%3D3%22%2C%5B%22regional_id%3D1%22%5D%5D'
@@ -61,6 +68,7 @@ df = df[df['Produsen Data'] != 'BADAN PUSAT STATISTIK']
 df = df[df['Produsen Data'] != 'INSTANSI VERTIKAL DAN KEMENTERIAN']
 
 df2 = df.copy()
+df2 = df2.sort_values(by=['Produsen Data', 'Data/ Indikator'])
 
 opd = df2['Produsen Data'].unique()
 
@@ -70,7 +78,7 @@ with st.container(border=True):
     if opd_terpilih:
         df3 = df2[df2['Produsen Data'] == opd_terpilih]
         jumlah_baris = df3.shape[0]
-        df3 = df3.sort_values(by=['Produsen Data', 'Data/ Indikator'])
+        
         st.dataframe(df3, use_container_width=True, hide_index=True)
         st.caption('Sumber: https://opendata.jabarprov.go.id/id/dataset')
         

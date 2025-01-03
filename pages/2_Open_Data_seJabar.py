@@ -10,19 +10,41 @@ st.title(':green[SATU DATA INDONESIA]')
 #st.header(':blue[Perpres No. 39 Tahun 2019]', divider='green')
 
 st.subheader('DAFTAR DATA STATISTIK SEKTORAL KABUPATEN/KOTA DI JAWA BARAT')
+st.success('Sumber: API Open Data Jabar')
 
-wilayah = ['Bogor', 'Sukabumi', 'Cianjur', 'Bandung', 'Garut', 'Tasikmalaya', 'Ciamis',
+wilayah = {
+    'Nama':['Bogor', 'Sukabumi', 'Cianjur', 'Bandung', 'Garut', 'Tasikmalaya', 'Ciamis',
            'Kuningan', 'Cirebon', 'Majalengka', 'Sumedang', 'Indramayu', 'Subang', 'Purwakarta',
            'Karawang', 'Bekasi', 'Bandung Barat', 'Pangandaran', 'Kota Bogor', 'Kota Sukabumi',
            'Kota Bandung', 'Kota Cirebon', 'Kota Bekasi', 'Kota Depok', 'Kota Cimahi',
-           'Kota Tasikmalaya', 'Kota Banjar']
+           'Kota Tasikmalaya', 'Kota Banjar'],
+    'Kode':['8', '9', '10', '17', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29',
+            '30', '31', '32', '6', '7', '11', '12', '13', '14', '15', '16', '18', '19']
+}
 
-st.success('Kondisi Real Time Open Data Jabar')
+df = pd.DataFrame(wilayah)
+
+# Mengambil daftar nama untuk opsi selectbox
+pilihan = df['Nama'].tolist()
+
+# Membuat selectbox
+wilayah_terpilih = st.selectbox('Pilih Wilayah:', pilihan)
+
+# Mengambil kode berdasarkan nama yang dipilih
+kodewilayah = df.loc[df['Nama'] == wilayah_terpilih, 'Kode'].values[0]
+
+
 st.warning('Statistik sektoral adalah statistik yang pemanfaatannya ditujukan untuk memenuhi \
             kebutuhan instansi tertentu dalam rangka penyelenggaraan tugas-tugas pemerintahan \
                 dan pembangunan yang merupakan tugas pokok instansi yang bersangkutan.')
 
-wilayah_terpilih = st.selectbox("Pilih Wilayah", wilayah)
+st.success('Kamus Besar Bahasa Indonesia (KBBI) menjelaskan bahwa indikator \
+merupakan sesuatu yang dapat memberikan petunjuk atau \
+keterangan. Indikator juga bisa diartikan sebagai setiap ciri, \
+karakteristik, atau ukuran yang bisa menunjukkan perubahan yang \
+terjadi pada sebuah bidang tertentu.')
+
+st.info('Suatu indikator biasanya diawali dengan kata Jumlah, Persentase, Proporsi, Rasio, Indeks, Angka, atau Tingkat')
 
 custom_css = """
 <style>
@@ -35,1370 +57,130 @@ custom_css = """
 # Menyisipkan CSS khusus
 st.markdown(custom_css, unsafe_allow_html=True)
 
-# # 3200
-# if wilayah_terpilih == 'Jawa Barat':
-#     # URL yang diberikan
-#     url1 = "https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=%5B%22mdate%3Adesc%22%5D&limit=5000&skip=0&where=%5B%22dataset_class_id%3D3%22%2C%5B%22regional_id%3D1%22%5D%5D"
-#     url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=1"]]'
 
-#     # Mengambil data dari URL
-#     response = requests.get(url2)
-#     data = response.json()
-
-#     # Mengonversi data ke DataFrame pandas
-#     df = pd.DataFrame(data['data'])
-
-#     kolom_dipakai = ['nama_skpd', 'name']
-
-#     df2 = df[~df['nama_skpd'].str.contains('PUSAT', case=False, na=False)]
-    
-#     st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-#     kol1, kol2 = st.columns(2)
-#     with kol1:
-#         # Menghitung jumlah kemunculan setiap nama_skpd
-#         df2_counts = df2['nama_skpd'].value_counts().reset_index()
-#         df2_counts.columns = ['nama_skpd', 'count']
-
-#         # Membuat chart
-#         fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-#         # Menambahkan nilai count ke dalam label
-#         fig.update_traces(textinfo='label+value')
-#         with st.container(border=True):
-#             st.plotly_chart(fig, use_container_width=True)
-#     with kol2:
-#         with st.container(border=True):
-#             st.dataframe(df2_counts, use_container_width=True)
-        
-#     df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-#     opd = df2['nama_skpd'].unique()
-
-#     df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-#     st.subheader("", divider='rainbow')
-
-#     opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-#     if opd_terpilih:
-#         df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        
-#         st.dataframe(df3, use_container_width=True, hide_index=True)
-#         st.caption('Sumber: https://opendata.jabarprov.go.id/id/dataset')
-    
-#     with st.expander(f'Daftar Metadata Statistik {opd_terpilih} JAWA BARAT pada SIRUSA'):
-#         # Embed URL in an iframe
-#         iframe_code = f"""
-#         <iframe src="https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}+Jawa+Barat" width="100%" height="600" style="border:none;"></iframe>
-#         """
-
-#         st.info(f'Daftar Metadata Statistik {opd_terpilih} JAWA BARAT pada SIRUSA')
-#         st.markdown(iframe_code, unsafe_allow_html=True)
-#         st.caption(f'Sumber: https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}+Jawa+Barat')
-
-#     st.success('REFERENSI METADATA DAN REKOMENDASI')
-#     #st.divider()    
-#     with st.expander(f'Contoh Metadata Statistik {opd_terpilih} di Pemerintah Daerah lain'):
-#         # Embed URL in an iframe
-#         iframe_code = f"""
-#         <iframe src="https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}" width="100%" height="600" style="border:none;"></iframe>
-#         """
-
-#         st.warning(f'Contoh Metadata Statistik {opd_terpilih} di Pemerintah Daerah lain')
-#         st.markdown(iframe_code, unsafe_allow_html=True)
-#         st.caption(f'Sumber: https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}')
-
-#     with st.expander(f'Contoh Rancangan Kegiatan Statistik {opd_terpilih} di Pemerintah Daerah lain'):
-#         st.success(f'Contoh Rancangan Kegiatan {opd_terpilih} selindo')
-#         # Embed URL in an iframe
-#         iframe_code = f"""
-#         <iframe src="https://romantik.web.bps.go.id/rekomendasi-terbit?search={opd_terpilih}" width="100%" height="600" style="border:none;"></iframe>
-#         """
-
-#         st.warning(f'Contoh Rancangan Kegiatan Statistik {opd_terpilih} di Pemerintah Daerah lain')
-#         st.markdown(iframe_code, unsafe_allow_html=True)
-#         st.caption(f'Sumber: https://romantik.web.bps.go.id/rekomendasi-terbit?search={opd_terpilih}')
-        
-# 3201
-if wilayah_terpilih == 'Bogor':
+if wilayah_terpilih:
     # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=8"]]'
+    url2 = f'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id={kodewilayah}"]]'
 
+all_data = []
+
+while True:
     # Mengambil data dari URL
     response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
     
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
+    # Memeriksa apakah respons berhasil
+    if response.status_code != 200:
+        print(f"Error: {response.status_code}")
+        break
+    
+    try:
+        data = response.json()
+    except ValueError:
+        print("Error: Tidak dapat mengurai JSON")
+        break
+    
+    # Memeriksa apakah ada data yang diambil
+    if not data['data']:
+        break
+    
+    # Menambahkan data ke dalam list all_data
+    all_data += data['data']
+    
+    # Memperbarui URL untuk halaman berikutnya
+    skip_value = len(all_data)
+    url2 = f'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=%5B%22mdate%3Adesc%22%5D&limit=5000&skip={skip_value}&where=["dataset_class_id=3",["regional_id={kodewilayah}'
 
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
+# Mengambil name, organisasi_name, Dimensi Dataset Awal dan Dimensi Dataset Akhir
+filtered_data = []
+for item in all_data:
+    filtered_item = {
+        'Data/ Indikator': item.get('name'),
+        'Dari': next((meta['value'] for meta in item.get('metadata', []) if meta['key'] == 'Dimensi Dataset Awal'), None),
+        'Sampai': next((meta['value'] for meta in item.get('metadata', []) if meta['key'] == 'Dimensi Dataset Akhir'), None),
+        'Produsen Data': item.get('nama_skpd')    
+    }
+    filtered_data.append(filtered_item)
 
-    opd = df2['nama_skpd'].unique()
+# Mengonversi data ke DataFrame pandas
+df = pd.DataFrame(filtered_data)
+# df = df[df['Produsen Data'] != 'BADAN PUSAT STATISTIK']
+# df = df[df['Produsen Data'] != 'INSTANSI VERTIKAL DAN KEMENTERIAN']
 
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
+df2 = df.copy()
+df2 = df2.sort_values(by=['Produsen Data', 'Data/ Indikator'])
 
-    st.subheader("", divider='rainbow')
+opd = df2['Produsen Data'].unique()
 
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
+with st.container(border=True):
+    opd_terpilih = st.selectbox(f'Filter Produsen Data di {wilayah_terpilih}', opd)
 
     if opd_terpilih:
         df3 = df2[df2['Produsen Data'] == opd_terpilih]
+        jumlah_baris = df3.shape[0]
+        
         st.dataframe(df3, use_container_width=True, hide_index=True)
+        st.caption('Sumber: https://opendata.jabarprov.go.id/id/dataset')
         
-# 3202
-if wilayah_terpilih == 'Sukabumi':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=9"]]'
+        with st.expander('PERTANYAAN PENTING'):
+            st.info(f'PERTANYAAN UNTUK {jumlah_baris} DATA/ INDIKATOR TERSEBUT:')
+            st.caption('1. Dihasilkan oleh Bidang apa saja?')
+            st.caption('2. Dihasilkan dari kegiatan apa?')
+            st.caption('3. Apakah kegiatan tersebut sudah memiliki Nomor Rekomendasi Statistik?')
+            st.caption('4. Apakah sudah tersedia Metadata Statistik Kegiatan?')
+            st.caption('5. Apakah sudah tersedia Metadata Statistik Indikator?')
+            st.caption('6. Apakah sudah tersedia Metadata Statistik Variabel?')
+            st.caption('7. Apakah dikemas dalam bentuk laporan dan dianalisis?')
 
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
+st.subheader('', divider='green')
         
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3203
-if wilayah_terpilih == 'Cianjur':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=10"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3204
-if wilayah_terpilih == 'Bandung':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=17"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3205
-if wilayah_terpilih == 'Garut':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=20"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3206
-if wilayah_terpilih == 'Tasikmalaya':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=21"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3207
-if wilayah_terpilih == 'Ciamis':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=22"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3208
-if wilayah_terpilih == 'Kuningan':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=23"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3209
-if wilayah_terpilih == 'Cirebon':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=24"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3210
-if wilayah_terpilih == 'Majalengka':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=25"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3211
-if wilayah_terpilih == 'Sumedang':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=26"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3212
-if wilayah_terpilih == 'Indramayu':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=27"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3213
-if wilayah_terpilih == 'Subang':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=28"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3214
-if wilayah_terpilih == 'Purwakarta':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=29"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3215
-if wilayah_terpilih == 'Karawang':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=30"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3216
-if wilayah_terpilih == 'Bekasi':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=31"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3217
-if wilayah_terpilih == 'Bandung Barat':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=32"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3218
-if wilayah_terpilih == 'Pangandaran':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=6"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3271
-if wilayah_terpilih == 'Kota Bogor':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=7"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3272
-if wilayah_terpilih == 'Kota Sukabumi':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=11"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3273
-if wilayah_terpilih == 'Kota Bandung':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=12"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3274
-if wilayah_terpilih == 'Kota Cirebon':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=13"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3275
-if wilayah_terpilih == 'Kota Bekasi':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=14"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3276
-if wilayah_terpilih == 'Kota Depok':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=15"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3277
-if wilayah_terpilih == 'Kota Cimahi':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=16"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3278
-if wilayah_terpilih == 'Kota Tasikmalaya':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=18"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-        
-# 3279
-if wilayah_terpilih == 'Kota Banjar':
-    # URL yang diberikan
-    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=["mdate:desc"]&limit=5000&skip=0&where=["dataset_class_id=3",["regional_id=19"]]'
-
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    data = response.json()
-
-    # Mengonversi data ke DataFrame pandas
-    df = pd.DataFrame(data['data'])
-
-    kolom_dipakai = ['nama_skpd', 'name']
-
-    df2 = df[~df['nama_skpd'].str.contains('BADAN PUSAT STATISTIK', case=False, na=False)]
-    
-    st.subheader(f'Jumlah Data per Produsen Data di Pemda {wilayah_terpilih}')
-    kol1, kol2 = st.columns(2)
-    with kol1:
-        # Menghitung jumlah kemunculan setiap nama_skpd
-        df2_counts = df2['nama_skpd'].value_counts().reset_index()
-        df2_counts.columns = ['nama_skpd', 'count']
-
-        # Membuat chart
-        fig = px.sunburst(df2_counts, path=['nama_skpd'], values='count')
-        # Menambahkan nilai count ke dalam label
-        fig.update_traces(textinfo='label+value')
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-    with kol2:
-        with st.container(border=True):
-            st.dataframe(df2_counts, use_container_width=True)
-        
-    df2 = df[kolom_dipakai].sort_values(by='nama_skpd')
-
-    opd = df2['nama_skpd'].unique()
-
-    df2 = df2.rename(columns={'nama_skpd':'Produsen Data', 'name':'Data yang Dihasilkan'})
-
-    st.subheader("", divider='rainbow')
-    opd_terpilih = st.selectbox('Filter Produsen Data', opd)
-
-    if opd_terpilih:
-        df3 = df2[df2['Produsen Data'] == opd_terpilih]
-        st.dataframe(df3, use_container_width=True, hide_index=True)
-
-
-        
-st.subheader("", divider='green')
-with st.expander('BAHAN PEMBAHASAN FORUM SATU DATA:'):
-    st.warning('Data-data tersebut dihasilkan dari kegiatan apa (MS-Keg)?')
-    st.info('Apakah kegiatan tersebut sudah meminta Rekomendasi Pembina Data?')
-    st.success('Adakah data publik lain yang dihasilkan selain Daftar Data di atas?')
-    st.warning('Data mana saja yang termasuk Data Prioritas Daerah?')
-    st.info('Data mana saja yang akan dihasilkan kembali di tahun depan?')
-    st.success('Apakah data-data tersebut sudah mengacu pada Standar Data Statistik Nasional?')
-    st.warning('Apakah sudah tersedia metadata (Kegiatan, Indikator, Variabel)?')
-    st.info('Data mana saja yang sudah mengacu pada Data Induk Kementerian Pengampu?')
-    st.success('Apakah data-data tersebut dikemas dalam sebuah laporan dan dianalisis?')
+with st.container(border=True):
+    st.warning(f'REKOMENDASI DAN METADATA STATISTIK {opd_terpilih} {wilayah_terpilih}')
+
+    with st.expander(f'Daftar Metadata Statistik {opd_terpilih} {wilayah_terpilih} pada SIRUSA'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}+{wilayah_terpilih}" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.info(f'Daftar Metadata Statistik {opd_terpilih} {wilayah_terpilih} pada SIRUSA')
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}+{wilayah_terpilih}')
+
+    with st.expander(f'Daftar Rekomendasi Statistik {opd_terpilih} {wilayah_terpilih} pada Romantik'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://romantik.web.bps.go.id/rekomendasi-terbit?search={opd_terpilih}+{wilayah_terpilih}" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.info(f'Daftar Rekomendasi Statistik {opd_terpilih} {wilayah_terpilih} pada Romantik')
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://romantik.web.bps.go.id/rekomendasi-terbit?search={opd_terpilih}+{wilayah_terpilih}')
+
+st.subheader('', divider='green')
+
+with st.container(border=True):
+    st.success('REFERENSI METADATA DAN REKOMENDASI')
+
+    with st.expander(f'Contoh Metadata Statistik {opd_terpilih} di Pemerintah Daerah lain'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.warning(f'Contoh Metadata Statistik {opd_terpilih} di Pemerintah Daerah lain')
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://sirusa.web.bps.go.id/metadata/site/search?SearchForm%5Bkategori%5D=&SearchForm%5Bkeyword%5D={opd_terpilih}')
+
+    with st.expander(f'Contoh Rancangan Kegiatan Statistik {opd_terpilih} di Pemerintah Daerah lain'):
+        st.success(f'Contoh Rancangan Kegiatan {opd_terpilih} selindo')
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://romantik.web.bps.go.id/rekomendasi-terbit?search={opd_terpilih}" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.warning(f'Contoh Rancangan Kegiatan Statistik {opd_terpilih} di Pemerintah Daerah lain')
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://romantik.web.bps.go.id/rekomendasi-terbit?search={opd_terpilih}')
     
 st.divider()
 st.write('@BPS Provinsi Jawa Barat')
