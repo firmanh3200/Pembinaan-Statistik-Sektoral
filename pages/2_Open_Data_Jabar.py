@@ -86,11 +86,13 @@ with st.container(border=True):
             st.info(f'PERTANYAAN UNTUK {jumlah_baris} DATA/ INDIKATOR TERSEBUT:')
             st.caption('1. Dihasilkan oleh Bidang apa saja?')
             st.caption('2. Dihasilkan dari kegiatan apa?')
-            st.caption('3. Apakah kegiatan tersebut sudah memiliki Nomor Rekomendasi Statistik?')
-            st.caption('4. Apakah sudah tersedia Metadata Statistik Kegiatan?')
-            st.caption('5. Apakah sudah tersedia Metadata Statistik Indikator?')
-            st.caption('6. Apakah sudah tersedia Metadata Statistik Variabel?')
-            st.caption('7. Apakah dikemas dalam bentuk laporan dan dianalisis?')
+            st.caption('3. Bagaimana proses untuk menghasilkan data tersebut?')
+            st.caption('4. Apakah melakukan survei mandiri?')
+            st.caption('5. Apakah kegiatan tersebut sudah memiliki Nomor Rekomendasi Statistik?')
+            st.caption('6. Apakah sudah tersedia Metadata Statistik Kegiatan?')
+            st.caption('7. Apakah sudah tersedia Metadata Statistik Indikator?')
+            st.caption('8. Apakah sudah tersedia Metadata Statistik Variabel?')
+            st.caption('9. Apakah dikemas dalam bentuk laporan dan dianalisis?')
 
 st.subheader('', divider='green')
         
