@@ -4,6 +4,20 @@ st.set_page_config(layout='wide')
 
 st.header('Daftar Pustaka', divider='rainbow')
 
+with st.container(border=True):
+    st.subheader('Indikator Urusan Pemerintahan Bidang Statistik')
+    st.warning('1. Jumlah survey bidang sosial, \
+                ekonomi, politik, hukum dan HAM \
+                yang mendapatkan rekomendasi BPS')
+    
+    st.info('2. Jumlah kompilasi produk \
+                administrasi bidang sosial, ekonomi, \
+                politik, hukum dan HAM yang \
+                mendapatkan rekomendasi BPS')
+    
+    st.caption('Peraturan Pemerintah Nomor 18 Tahun 2016 tentang Perangkat Daerah jo \
+                Peraturan Pemerintah Nomor 72 Tahun 2019')
+
 st.write('1.	Undang-Undang Republik Indonesia Nomor 23 Tahun 2014 tentang Pemerintahan Daerah;')
 st.write('2.	Undang-Undang Republik Indonesia Nomor 16 Tahun 1997 tentang Statistik;')
 st.write('3.	Peraturan Pemerintah Nomor 51 Tahun 1999 tentang Penyelenggaraan Statistik;')
@@ -48,6 +62,8 @@ st.write('28. Panduan Penyusunan Metadata Statistik Ketahanan Pangan 2021, \
 st.write('29. https://sipd.go.id/ewalidata/54050dab11e0f218cf632ec8478dbc71755a65e7/?m=public_dssd_tabel')
 st.write('30. https://jdih.jabarprov.go.id/page/produk_hukum/12/')
 st.write('31. https://jdih.web.bps.go.id/public/index.php')
+
+
 
 # Menambahkan widget Galichat
 chat_script = """
