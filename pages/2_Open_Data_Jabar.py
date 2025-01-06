@@ -68,7 +68,7 @@ df = df[df['Produsen Data'] != 'BADAN PUSAT STATISTIK']
 df = df[df['Produsen Data'] != 'INSTANSI VERTIKAL DAN KEMENTERIAN']
 
 df2 = df.copy()
-df2 = df2.sort_values(by=['Produsen Data', 'Data/ Indikator'])
+df2 = df2.sort_values(by='Produsen Data')
 
 opd = df2['Produsen Data'].unique()
 
@@ -78,6 +78,7 @@ with st.container(border=True):
     if opd_terpilih:
         df3 = df2[df2['Produsen Data'] == opd_terpilih]
         jumlah_baris = df3.shape[0]
+        df3 = df3.sort_values(by='Data/ Indikator')
         
         st.dataframe(df3, use_container_width=True, hide_index=True)
         st.caption('Sumber: https://opendata.jabarprov.go.id/id/dataset')
