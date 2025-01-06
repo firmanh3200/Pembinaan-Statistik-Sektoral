@@ -7,7 +7,6 @@ kematangan = pd.read_excel('data/kematangan.xlsx')
 st.set_page_config(layout='wide')
 
 st.subheader('Evaluasi Penyelenggaraan Statistik Sektoral', divider='rainbow')
-st.success('Sumber: https://drive.google.com/file/d/1B37k_35MENcx6MQ5UWmnV-EleC-derH0/view?usp=sharing')
 
 with st.expander('TINGKAT KEMATANGAN'):
     st.success(':red[RINTISAN]:  penyelenggaraan statistik sektoral dilakukan \
@@ -34,97 +33,96 @@ with st.expander('TINGKAT KEMATANGAN'):
             evaluasi')
     
 with st.expander('PRINSIP SDI'):
-    # st.success('Tingkat Kematangan Penerapan Standar Data Statistik (SDS)')
-    # st.info('Tingkat Kematangan Penerapan Metadata Statistik')
-    # st.warning('Tingkat Kematangan Penerapan Interoperabilitas Data')
-    # st.info('Tingkat Kematangan Penerapan Kode Referensi dan/atau Data Induk')
     lke1 = lke[lke['Domain'] == 'Prinsip SDI']
     st.dataframe(lke1, hide_index=True, use_container_width=True)
+    
     st.divider()
     kematangan1 = kematangan[kematangan['Kode'] == 1]
-    st.dataframe(kematangan1, hide_index=True, use_container_width=True)
+    indikator = kematangan1['Indikator'].unique()
+    indterpilih = st.selectbox('Pilih Indikator', indikator)
+    
+    if indterpilih:
+        kematangan1a = kematangan1[kematangan1['Indikator'] == indterpilih]
+        st.table(kematangan1a)
+        
     penjelasan = lke1['Penjelasan Indikator'].to_list()
     st.success('Penjelasan Indikator')
     st.write(penjelasan)
     
 with st.expander('KUALITAS DATA'):
-    # st.success('Tingkat Kematangan Relevansi Data Terhadap Pengguna')
-    # st.info('Tingkat Kematangan Proses Identifikasi Kebutuhan Data')
-    # st.warning('Tingkat Kematangan Penilaian Akurasi Data')
-    # st.info('Tingkat Kematangan Penjaminan Aktualitas Data')
-    # st.success('Tingkat Kematangan Pemantauan Ketepatan Waktu Diseminasi')
-    # st.info('Tingkat Kematangan Ketersediaan Data untuk Pengguna Data')
-    # st.warning('Tingkat Kematangan Akses Media Penyebarluasan Data')
-    # st.info('Tingkat Kematangan Penyediaan Format Data')
-    # st.success('Tingkat Kematangan Keterbandingan Data')
-    # st.info('Tingkat Kematangan Konsistensi Statistik')
     lke2 = lke[lke['Domain'] == 'Kualitas Data']
     st.dataframe(lke2, hide_index=True, use_container_width=True)
+    
     st.divider()
     kematangan2 = kematangan[kematangan['Kode'] == 2]
-    st.dataframe(kematangan2, hide_index=True, use_container_width=True)
+    indikator = kematangan2['Indikator'].unique()
+    indterpilih = st.selectbox('Pilih Indikator', indikator)
+    
+    if indterpilih:
+        kematangan2a = kematangan2[kematangan2['Indikator'] == indterpilih]
+        st.table(kematangan2a)
+        
     penjelasan = lke2['Penjelasan Indikator'].to_list()
     st.success('Penjelasan Indikator')
     st.write(penjelasan)
     
 with st.expander('PROSES BISNIS STATISTIK'):
-    # st.success('Tingkat Kematangan Pendefinisian Kebutuhan Statistik')
-    # st.info('Tingkat Kematangan Desain Statistik')
-    # st.warning('Tingkat Kematangan Penyiapan Instrumen')
-    # st.info('Tingkat Kematangan Proses Pengumpulan Data / Akuisisi Data Statistik')
-    # st.success('Tingkat Kematangan Pengolahan Data Statistik')
-    # st.info('Tingkat Kematangan Analisis Data Statistik')
-    # st.warning('Tingkat Kematangan Diseminasi Data Statistik')
     lke3 = lke[lke['Domain'] == 'Proses Bisnis Statistik']
     st.dataframe(lke3, hide_index=True, use_container_width=True)
+    
     st.divider()
     kematangan3 = kematangan[kematangan['Kode'] == 3]
-    st.dataframe(kematangan3, hide_index=True, use_container_width=True)
+    indikator = kematangan3['Indikator'].unique()
+    indterpilih = st.selectbox('Pilih Indikator', indikator)
+    
+    if indterpilih:
+        kematangan3a = kematangan3[kematangan3['Indikator'] == indterpilih]
+        st.table(kematangan3a)
+        
     penjelasan = lke3['Penjelasan Indikator'].to_list()
     st.success('Penjelasan Indikator')
     st.write(penjelasan)
     
 with st.expander('KELEMBAGAAN'):
-    # st.success('Tingkat Kematangan Penjaminan Transparansi Informasi Statistik')
-    # st.info('Tingkat Kematangan Penjaminan Netralitas dan Obyektivitas \
-    #         terhadap penggunaan Sumber Data Metodologi')
-    # st.warning('Tingkat Kematangan Penjaminan Kualitas Data Statistik')
-    # st.info('Tingkat Kematangan Penjaminan Konfidensialitas Data Statistik')
-    # st.success('Tingkat Kematangan Penerapan Kompetensi Sumber Daya Manusia Bidang Statistik')
-    # st.info('Tingkat Kematangan Penerapan Kompetensi Sumber Daya Manusia Bidang Manajemen Data Statistik')
-    # st.warning('Tingkat Kematangan Kolaborasi Penyelenggaraan Kegiatan Statistik')
-    # st.info('Tingkat Kematangan Penyelenggaraan Forum Satu Data')
-    # st.success('Tingkat Kematangan Kolaborasi dengan Pembina Data Statistik')
-    # st.info('Tingkat Kematangan Penyelenggaraan Pelaksanaan Tugas Sebagai Wali Data')
     lke4 = lke[lke['Domain'] == 'Kelembagaan']
     st.dataframe(lke4, hide_index=True, use_container_width=True)
+    
     st.divider()
     kematangan4 = kematangan[kematangan['Kode'] == 4]
-    st.dataframe(kematangan4, hide_index=True, use_container_width=True)
+    indikator = kematangan4['Indikator'].unique()
+    indterpilih = st.selectbox('Pilih Indikator', indikator)
+    
+    if indterpilih:
+        kematangan4a = kematangan4[kematangan4['Indikator'] == indterpilih]
+        st.table(kematangan4a)
+        
+    
     penjelasan = lke4['Penjelasan Indikator'].to_list()
     st.success('Penjelasan Indikator')
     st.write(penjelasan)
     
 with st.expander('STATISTIK NASIONAL'):
-    # st.success('Tingkat Kematangan Penggunaan Data Statistik Dasar untuk \
-    #         Perencanaan, Monitoring, dan Evaluasi, dan atau Penyusunan Kebijakan')
-    # st.info('Tingkat Kematangan Penggunaan Data Statistik Sektoral untuk \
-    #         Perencanaan, Monitoring, dan Evaluasi, dan atau Penyusunan Kebijakan')
-    # st.warning('Tingkat Kematangan Sosialisasi dan Literasi Hasil Statistik')
-    # st.info('Tingkat Kematangan Kepatuhan Penerapan Rekomendasi Kegiatan Statistik')
-    # st.success('Tingkat Kematangan Perencanaan Pembangunan Statistik')
-    # st.info('Tingkat Kematangan Penyebarluasan Data Statistik')
-    # st.warning('Tingkat Kematangan Pemanfaatan Big Data untuk Mendukung Statistik')
     lke5 = lke[lke['Domain'] == 'Statistik Nasional']
     st.dataframe(lke5, hide_index=True, use_container_width=True)
+    
     st.divider()
     kematangan5 = kematangan[kematangan['Kode'] == 5]
-    st.dataframe(kematangan5, hide_index=True, use_container_width=True)
+    indikator = kematangan5['Indikator'].unique()
+    indterpilih = st.selectbox('Pilih Indikator', indikator)
+    
+    if indterpilih:
+        kematangan5a = kematangan5[kematangan5['Indikator'] == indterpilih]
+        st.table(kematangan5a)
+        
     penjelasan = lke5['Penjelasan Indikator'].to_list()
     st.success('Penjelasan Indikator')
     st.write(penjelasan)
 
-st.success("Anda dapat bertanya tentang epss dengan menggunakan widget di bawah ini.")
+st.subheader('', divider='green')
+
+st.success('Baca Pedoman: https://drive.google.com/file/d/1B37k_35MENcx6MQ5UWmnV-EleC-derH0/view?usp=sharing')
+
+st.warning("Anda dapat bertanya tentang epss pada bot di bawah.")
 
 # Menambahkan widget Galichat
 chat_script = """
@@ -137,3 +135,4 @@ chat_script = """
 
 # Menyisipkan kode HTML ke dalam aplikasi Streamlit
 st.components.v1.html(chat_script, height=600)
+st.caption('@BPS Provinsi Jawa Barat')
