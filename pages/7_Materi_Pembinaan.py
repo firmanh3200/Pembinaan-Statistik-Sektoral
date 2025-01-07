@@ -11,6 +11,11 @@ with st.container(border=True):
                         dalam rangka :orange[Nganjang Jabar Caang]', divider='rainbow')
 
 st.divider()
+with st.container(border=True):
+    with st.container(border=True):
+        st.link_button("Laporan Pembinaan Tim PSS", url="https://webapps.bps.go.id/rujukan/pembinaan/public/")
+
+st.divider()
 
 with st.container(border=True):
 
@@ -35,7 +40,7 @@ with st.container(border=True):
         with kolom3:
             st.link_button("Diseminasi dan Evaluasi", url="https://drive.google.com/file/d/1WLuE8fo5vu3QADpTPuYKJQUTQdY6Xs6P/preview")
             
-            st.link_button("Aplikasi Kegiatan Statistik", url="https://drive.google.com/file/d/18Em1hySNdkAoEt4YJysUblFd0eQGOIwX/preview")
+            st.link_button("Contoh Kegiatan Statistik", url="https://drive.google.com/file/d/18Em1hySNdkAoEt4YJysUblFd0eQGOIwX/preview")
             
             st.link_button("Metadata Statistik", url="https://drive.google.com/file/d/1fngDi4qmpwTMlX83AkqUk9PydQguFq-W/preview")
             
