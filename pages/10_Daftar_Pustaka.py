@@ -2,6 +2,16 @@ import streamlit as st
 
 st.set_page_config(layout='wide')
 
+with st.container(border=True):
+    with st.container(border=True):
+        with st.container(border=True):
+            st.title('... :green[PLISS] :orange[Nganjang] ...')
+
+            st.subheader(':green[Portal Literasi dan Identifikasi Statistik Sektoral] \
+                        dalam rangka :orange[Nganjang Jabar Caang]', divider='rainbow')
+
+st.divider()
+
 st.header('Daftar Pustaka', divider='rainbow')
 
 with st.container(border=True):
@@ -63,13 +73,5 @@ st.write('29. https://sipd.go.id/ewalidata/54050dab11e0f218cf632ec8478dbc71755a6
 st.write('30. https://jdih.jabarprov.go.id/page/produk_hukum/12/')
 st.write('31. https://jdih.web.bps.go.id/public/index.php')
 
-
-
-# Menambahkan widget Galichat
-chat_script = """
-    <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
-    <script src="https://files.bpcontent.cloud/2025/01/04/03/20250104035620-PTG96A7D.js"></script>
-"""
-st.components.v1.html(chat_script)
-
-st.subheader("", divider='green')
+st.divider()
+st.caption('Tim PSS @BPS Provinsi Jawa Barat')

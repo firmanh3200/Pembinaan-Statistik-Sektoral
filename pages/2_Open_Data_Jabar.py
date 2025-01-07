@@ -4,73 +4,83 @@ import streamlit as st
 
 st.set_page_config(layout='wide')
 
-st.title(':green[SATU DATA INDONESIA]')
+with st.container(border=True):
+    with st.container(border=True):
+        with st.container(border=True):
+            st.title('... :green[PLISS] :orange[Nganjang] ...')
 
-st.subheader('DAFTAR DATA STATISTIK SEKTORAL JAWA BARAT')
+            st.subheader(':green[Portal Literasi dan Identifikasi Statistik Sektoral] \
+                        dalam rangka :orange[Nganjang Jabar Caang]', divider='rainbow')
 
-st.success('Sumber: API Open Data Jabar')
-st.info('Statistik sektoral adalah statistik yang pemanfaatannya ditujukan untuk memenuhi \
-            kebutuhan instansi tertentu dalam rangka penyelenggaraan tugas-tugas pemerintahan \
-                dan pembangunan yang merupakan tugas pokok instansi yang bersangkutan.')
-st.warning('Kamus Besar Bahasa Indonesia (KBBI) menjelaskan bahwa indikator \
-merupakan sesuatu yang dapat memberikan petunjuk atau \
-keterangan. Indikator juga bisa diartikan sebagai setiap ciri, \
-karakteristik, atau ukuran yang bisa menunjukkan perubahan yang \
-terjadi pada sebuah bidang tertentu.')
+st.divider()
 
-st.success('Suatu indikator biasanya diawali dengan kata Jumlah, Persentase, Proporsi, Rasio, Indeks, Angka, atau Tingkat')
+with st.container(border=True):
 
-# URL yang diberikan
-url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=%5B%22mdate%3Adesc%22%5D&limit=25&skip=0&where=%5B%22dataset_class_id%3D3%22%2C%5B%22regional_id%3D1%22%5D%5D'
+    st.subheader('DAFTAR DATA STATISTIK SEKTORAL JAWA BARAT')
 
-all_data = []
+    st.success('Sumber: API Open Data Jabar')
+    st.info('Statistik sektoral adalah statistik yang pemanfaatannya ditujukan untuk memenuhi \
+                kebutuhan instansi tertentu dalam rangka penyelenggaraan tugas-tugas pemerintahan \
+                    dan pembangunan yang merupakan tugas pokok instansi yang bersangkutan.')
+    st.warning('Kamus Besar Bahasa Indonesia (KBBI) menjelaskan bahwa indikator \
+    merupakan sesuatu yang dapat memberikan petunjuk atau \
+    keterangan. Indikator juga bisa diartikan sebagai setiap ciri, \
+    karakteristik, atau ukuran yang bisa menunjukkan perubahan yang \
+    terjadi pada sebuah bidang tertentu.')
 
-while True:
-    # Mengambil data dari URL
-    response = requests.get(url2)
-    
-    # Memeriksa apakah respons berhasil
-    if response.status_code != 200:
-        print(f"Error: {response.status_code}")
-        break
-    
-    try:
-        data = response.json()
-    except ValueError:
-        print("Error: Tidak dapat mengurai JSON")
-        break
-    
-    # Memeriksa apakah ada data yang diambil
-    if not data['data']:
-        break
-    
-    # Menambahkan data ke dalam list all_data
-    all_data += data['data']
-    
-    # Memperbarui URL untuk halaman berikutnya
-    skip_value = len(all_data)
-    url2 = f'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=%5B%22mdate%3Adesc%22%5D&limit=25&skip={skip_value}&where=%5B%22dataset_class_id%3D3%22%2C%5B%22regional_id%3D1%22%5D%5D'
+    st.success('Suatu indikator biasanya diawali dengan kata Jumlah, Persentase, Proporsi, Rasio, Indeks, Angka, atau Tingkat')
 
-# Mengambil name, organisasi_name, Dimensi Dataset Awal dan Dimensi Dataset Akhir
-filtered_data = []
-for item in all_data:
-    filtered_item = {
-        'Data/ Indikator': item.get('name'),
-        'Dari': next((meta['value'] for meta in item.get('metadata', []) if meta['key'] == 'Dimensi Dataset Awal'), None),
-        'Sampai': next((meta['value'] for meta in item.get('metadata', []) if meta['key'] == 'Dimensi Dataset Akhir'), None),
-        'Produsen Data': item.get('nama_skpd')    
-    }
-    filtered_data.append(filtered_item)
+    # URL yang diberikan
+    url2 = 'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=%5B%22mdate%3Adesc%22%5D&limit=25&skip=0&where=%5B%22dataset_class_id%3D3%22%2C%5B%22regional_id%3D1%22%5D%5D'
 
-# Mengonversi data ke DataFrame pandas
-df = pd.DataFrame(filtered_data)
-df = df[df['Produsen Data'] != 'BADAN PUSAT STATISTIK']
-df = df[df['Produsen Data'] != 'INSTANSI VERTIKAL DAN KEMENTERIAN']
+    all_data = []
 
-df2 = df.copy()
-df2 = df2.sort_values(by='Produsen Data')
+    while True:
+        # Mengambil data dari URL
+        response = requests.get(url2)
+        
+        # Memeriksa apakah respons berhasil
+        if response.status_code != 200:
+            print(f"Error: {response.status_code}")
+            break
+        
+        try:
+            data = response.json()
+        except ValueError:
+            print("Error: Tidak dapat mengurai JSON")
+            break
+        
+        # Memeriksa apakah ada data yang diambil
+        if not data['data']:
+            break
+        
+        # Menambahkan data ke dalam list all_data
+        all_data += data['data']
+        
+        # Memperbarui URL untuk halaman berikutnya
+        skip_value = len(all_data)
+        url2 = f'https://data.jabarprov.go.id/api-backend/dataset/list?search=&sort=%5B%22mdate%3Adesc%22%5D&limit=25&skip={skip_value}&where=%5B%22dataset_class_id%3D3%22%2C%5B%22regional_id%3D1%22%5D%5D'
 
-opd = df2['Produsen Data'].unique()
+    # Mengambil name, organisasi_name, Dimensi Dataset Awal dan Dimensi Dataset Akhir
+    filtered_data = []
+    for item in all_data:
+        filtered_item = {
+            'Data/ Indikator': item.get('name'),
+            'Dari': next((meta['value'] for meta in item.get('metadata', []) if meta['key'] == 'Dimensi Dataset Awal'), None),
+            'Sampai': next((meta['value'] for meta in item.get('metadata', []) if meta['key'] == 'Dimensi Dataset Akhir'), None),
+            'Produsen Data': item.get('nama_skpd')    
+        }
+        filtered_data.append(filtered_item)
+
+    # Mengonversi data ke DataFrame pandas
+    df = pd.DataFrame(filtered_data)
+    df = df[df['Produsen Data'] != 'BADAN PUSAT STATISTIK']
+    df = df[df['Produsen Data'] != 'INSTANSI VERTIKAL DAN KEMENTERIAN']
+
+    df2 = df.copy()
+    df2 = df2.sort_values(by='Produsen Data')
+
+    opd = df2['Produsen Data'].unique()
 
 with st.container(border=True):
     opd_terpilih = st.selectbox('Filter Produsen Data', opd)
@@ -147,4 +157,4 @@ with st.container(border=True):
         st.caption(f'Sumber: https://romantik.web.bps.go.id/rekomendasi-terbit?search={opd_terpilih}')
 
 st.divider()
-st.caption('@BPS Provinsi Jawa Barat')
+st.caption('Tim PSS @BPS Provinsi Jawa Barat')
