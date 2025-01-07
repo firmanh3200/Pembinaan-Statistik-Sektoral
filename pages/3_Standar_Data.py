@@ -17,8 +17,8 @@ st.divider()
 with st.container(border=True):
 
     st.subheader('STANDAR DATA STATISTIK NASIONAL')
-    st.success('Berdasarkan Keputusan Kepala Badan Pusat Statistik Nomor 850 Tahun 2023')
-    st.caption('Lihat SDDS: https://indah.bps.go.id/standar-data-statistik-nasional')
+    st.success('Berdasarkan Keputusan Kepala Badan Pusat Statistik')
+    st.caption('Sumber: https://indah.bps.go.id/standar-data-statistik-nasional')
 
     # Fungsi untuk mendapatkan data dari API dengan paginasi
     def get_all_data(base_url):
@@ -42,8 +42,26 @@ with st.container(border=True):
 
     # Mengonversi data menjadi DataFrame
     df = pd.DataFrame(all_data)
+    df = df.sort_values(by='namaData')
+    del df['id']
+    
+    # Menambahkan kolom huruf pertama
+    df['hurufPertama'] = df['namaData'].str[0]
 
-    st.dataframe(df, hide_index=True, use_container_width=True)
+    # Mendapatkan daftar unik huruf pertama
+    unique_huruf = df['hurufPertama'].unique()
+
+    # Mengatur nilai default untuk multiselect
+    default_huruf = ['A', 'B']
+
+    # Membuat filter dengan st.multiselect
+    abjad = st.multiselect('Indeks Data:', unique_huruf, default=default_huruf)
+    
+    if abjad:
+        df2 = df[df['hurufPertama'].isin(abjad)]
+        del df2['hurufPertama']
+        
+        st.dataframe(df2, hide_index=True, use_container_width=True)
     
 st.divider()
 st.caption('Tim PSS @BPS Provinsi Jawa Barat')
