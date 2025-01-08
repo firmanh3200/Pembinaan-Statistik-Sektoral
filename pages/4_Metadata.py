@@ -95,7 +95,45 @@ with st.container(border=True):
         st.warning('Studi Konsumen: Mengumpulkan data tentang preferensi konsumen terhadap produk tertentu \
                 pada satu waktu. Contohnya, survei yang dilakukan oleh perusahaan makanan untuk mengetahui \
                     preferensi rasa es krim di kalangan remaja pada musim panas tahun ini.')
+    
+    with st.expander('Single Stage/Phase'):
+        st.success('Single Stage/Phase adalah pengambilan sampel hanya satu tahap yang \
+        dilakukan langsung pada unit-unit populasi yang terdaftar di kerangka sampel.')
         
+    with st.expander('Multi Stage/Phase'):
+        st.success('Multi Stage/Phase adalah pengambilan sampel melalui dua tahap atau lebih \
+                    pada unit-unit populasi yang terdaftar di kerangka sampel dimana metode \
+                    tiap tahapnya bisa berbeda.')
+        st.write('Contoh misalnya three stage:')
+        st.caption('Tahap I : Pemilihan kecamatan dari seluruh kabupaten yang ada')
+        st.caption('Tahap II : Pemilihan kelurahan/desa dari seluruh kecamatan yang terpilih sampel')
+        st.caption('Tahap III: Pemilihan rumah tangga dari seluruh kelurahan/desa yang terpilih sampel')
+    
+        st.warning('Sampel probabilitas adalah metode pemilihan sampel dengan peluang yang \
+                sama bagi setiap unit populasi untuk dipilih sebagai sampel. \
+                Contoh: simple random sampling, stratified sampling, dan systematic sampling.')
+        
+        st.info('Sampel non probabilitas adalah metode pemilihan sampel dengan peluang \
+                yang tidak sama bagi setiap unit populasi untuk dipilih sebagai sampel. \
+                Contoh: purposive sampling, snowball sampling, quota sampling, dan accidential sampling')
+    
+    with st.expander('Pengolahan Data'):
+        st.success('Penyuntingan (editing), yaitu kegiatan pemeriksaan hasil pengumpulan \
+                    data. Editing dilakukan pada kesalahan dan ketidakkonsistenan pengisian \
+                    rincian pertanyaan.')
+        
+        st.info('Penyandian (coding), yaitu kegiatan pemberian kode-kode pada rincian \
+                pertanyaan. Coding ini dilakukan untuk memudahkan entri data.')
+        
+        st.warning('Input data (data entry), yaitu kegiatan memasukkan data ke dalam “form \
+                data entry”. Data entry bisa dilakukan dengan aplikasi excel atau aplikasi \
+                yang dibuat tersendiri.')
+        
+        st.success('Pemindaian (scan), yaitu kegiatan memasukkan data dengan cara memindai \
+                dokumen hadrcopy menjadi softcopy.')
+        
+        st.info('Penyahihan (validasi), yaitu kegiatan pemeriksaan dan perbaikan data hasil entri data.')
+    
     with st.expander('Analisis Inferensia'):
         st.success('Analisis Inferensia adalah Analisis yang bertujuan untuk menarik kesimpulan pada sampel, yang \
                     digunakan untuk digeneralisir ke populasi. Analisis yang bertujuan untuk \

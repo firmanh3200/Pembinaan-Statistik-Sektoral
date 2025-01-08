@@ -56,8 +56,9 @@ with st.container(border=True):
         if indterpilih:
             kematangan1a = kematangan1[kematangan1['Indikator'] == indterpilih]
             st.table(kematangan1a)
-            
-        penjelasan = lke1['Penjelasan Indikator'].to_list()
+        
+        lke1a = lke1[lke1['Indikator'] == indterpilih]    
+        penjelasan = lke1a['Penjelasan Indikator'].to_list()
         st.success('Penjelasan Indikator')
         st.write(penjelasan)
         
@@ -74,7 +75,8 @@ with st.container(border=True):
             kematangan2a = kematangan2[kematangan2['Indikator'] == indterpilih]
             st.table(kematangan2a)
             
-        penjelasan = lke2['Penjelasan Indikator'].to_list()
+        lke2a = lke2[lke2['Indikator'] == indterpilih]    
+        penjelasan = lke2a['Penjelasan Indikator'].to_list()
         st.success('Penjelasan Indikator')
         st.write(penjelasan)
         
@@ -91,7 +93,8 @@ with st.container(border=True):
             kematangan3a = kematangan3[kematangan3['Indikator'] == indterpilih]
             st.table(kematangan3a)
             
-        penjelasan = lke3['Penjelasan Indikator'].to_list()
+        lke3a = lke3[lke3['Indikator'] == indterpilih]    
+        penjelasan = lke3a['Penjelasan Indikator'].to_list()
         st.success('Penjelasan Indikator')
         st.write(penjelasan)
         
@@ -108,8 +111,8 @@ with st.container(border=True):
             kematangan4a = kematangan4[kematangan4['Indikator'] == indterpilih]
             st.table(kematangan4a)
             
-        
-        penjelasan = lke4['Penjelasan Indikator'].to_list()
+        lke4a = lke4[lke4['Indikator'] == indterpilih]    
+        penjelasan = lke4a['Penjelasan Indikator'].to_list()
         st.success('Penjelasan Indikator')
         st.write(penjelasan)
         
@@ -126,7 +129,8 @@ with st.container(border=True):
             kematangan5a = kematangan5[kematangan5['Indikator'] == indterpilih]
             st.table(kematangan5a)
             
-        penjelasan = lke5['Penjelasan Indikator'].to_list()
+        lke5a = lke5[lke5['Indikator'] == indterpilih]    
+        penjelasan = lke5a['Penjelasan Indikator'].to_list()
         st.success('Penjelasan Indikator')
         st.write(penjelasan)
 
