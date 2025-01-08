@@ -93,7 +93,9 @@ with st.container(border=True):
     
     if terpilih:
         df3 = df[df['PERANGKAT DAERAH'] == terpilih]
-        st.dataframe(df3, hide_index=True, use_container_width=True)
+        df4 = df3.sort_values(by='INDIKATOR KINERJA DAERAH')
+        
+        st.dataframe(df4, hide_index=True, use_container_width=True)
     
 st.divider()
 st.caption('Tim PSS @BPS Provinsi Jawa Barat')
