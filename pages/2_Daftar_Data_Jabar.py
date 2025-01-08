@@ -74,6 +74,26 @@ with st.container(border=True):
     df2['urai'] = df2['urai'].str.split('&').str[0]
     
     st.dataframe(df2, use_container_width=True, hide_index=True)
+
+st.divider()
+
+with st.container(border=True):
+    st.subheader('Indikator Kinerja Daerah Provinsi Jawa Barat')
+    st.warning('Peraturan Gubernur Jawa Barat Nomor 25 Tahun 2023 tentang \
+        Rencana Pembangunan Daerah Provinsi Jawa Barat 2024-2026')
+    
+    ikd = pd.read_excel('data/ikd jabar.xlsx')
+    
+    df = pd.DataFrame(ikd)
+    df = df[['INDIKATOR KINERJA DAERAH', 'SATUAN', 'BIDANG URUSAN', 'PERANGKAT DAERAH']]
+    df = df.sort_values(by='PERANGKAT DAERAH')
+    opd = df['PERANGKAT DAERAH']. unique()
+    
+    terpilih = st.selectbox('Filter Perangkat Daerah', opd)
+    
+    if terpilih:
+        df3 = df[df['PERANGKAT DAERAH'] == terpilih]
+        st.dataframe(df3, hide_index=True, use_container_width=True)
     
 st.divider()
 st.caption('Tim PSS @BPS Provinsi Jawa Barat')
