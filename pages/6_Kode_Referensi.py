@@ -1,4 +1,7 @@
 import streamlit as st
+import requests
+import lxml
+import pandas as pd
 
 st.set_page_config(layout='wide')
 
@@ -150,9 +153,137 @@ with st.container(border=True):
         st.markdown(iframe_code, unsafe_allow_html=True)
         st.caption(f'Sumber: https://portaldata.kemenhub.go.id/kode-referensi')
     
-    
+    # ISBN
+    with st.expander('International Standard Book Number'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://isbn.perpusnas.go.id/landing_page/home" width="100%" height="600" style="border:none;"></iframe>
+        """
 
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://isbn.perpusnas.go.id/landing_page/home')
+    
+    # Kode Pemda MenPAN
+    with st.expander('Kode Pemda MenPAN'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://eskld-v2.menpan.go.id/pemerintah-daerah/provinsi/13" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://eskld-v2.menpan.go.id/pemerintah-daerah/provinsi/13')
+    
+    # Arsitektur SPBE
+    with st.expander('Arsitektur SPBE'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://jdih.setkab.go.id/PUUdoc/176876/Salinan_Perpres_Nomor_132_Tahun_2022.pdf" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://jdih.setkab.go.id/PUUdoc/176876/Salinan_Perpres_Nomor_132_Tahun_2022.pdf')
+    
+    # Kelautan Perikanan
+    with st.expander('Kelautan dan Perikanan'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://jdih.kkp.go.id/bahanrapat/bahanrapat_24052021044725.pdf" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://jdih.kkp.go.id/bahanrapat/bahanrapat_24052021044725.pdf')
+    
+    # Kode HS
+    with st.expander('Harmonized System'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://www.insw.go.id/intr" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://www.insw.go.id/intr')
+    
+    # Ekspor Impor
+    with st.expander('Efisiensi Proses Ekpsor Impor'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://www.insw.go.id/intr/referensi" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://www.insw.go.id/intr/referensi')
+    
+    # Data Induk Pendidikan
+    with st.expander('Data Induk Kemendikbudristek'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://data.kemdikbud.go.id/data-induk" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://data.kemdikbud.go.id/data-induk')
+    
+    # Data Induk Ikan
+    with st.expander('Data Induk Ikan'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://jdih.kkp.go.id/Homedev/DetailPeraturan/3029" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://jdih.kkp.go.id/Homedev/DetailPeraturan/3029')
+    
+    # ISIC
+    with st.expander('International Standard Industrial Classification of All Economic Activities'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://unstats.un.org/unsd/publication/seriesm/seriesm_4rev4e.pdf" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://unstats.un.org/unsd/publication/seriesm/seriesm_4rev4e.pdf')
+    
+    # ISO
+    with st.expander('International Organization of Standardizations'):
+        # Embed URL in an iframe
+        iframe_code = f"""
+        <iframe src="https://www.iso.org/popular-standards.html" width="100%" height="600" style="border:none;"></iframe>
+        """
+
+        st.markdown(iframe_code, unsafe_allow_html=True)
+        st.caption(f'Sumber: https://www.iso.org/popular-standards.html')
+    
+    # Kode Pos
+    # URL dasar dengan placeholder untuk nomor halaman
+    url_head = 'https://kodepos.co.id/kodepos/jawa-barat?page={}'
+
+    # Buat list untuk menyimpan DataFrame dari setiap halaman
+    dataframes = []
+
+    # Iterasi melalui setiap halaman (1 hingga 398)
+    for page in range(1, 399):
+        url = url_head.format(page)  # Format URL dengan nomor halaman
+        try:
+            # Membaca tabel dari URL
+            dfs = pd.read_html(url)  # Mengambil semua tabel sebagai list
             
+            # Memeriksa apakah ada tabel yang ditemukan
+            if dfs:
+                # Menambahkan DataFrame pertama dari list ke dalam list dataframes
+                dataframes.append(dfs[0])  # Ambil tabel pertama jika ada
+        except Exception as e:
+            print(f"Error pada halaman {page}: {e}")
+
+    # Menggabungkan semua DataFrame menjadi satu
+    final_df = pd.concat(dataframes, ignore_index=True)
+    final_df['Kode Pos'] = final_df['Kode Pos'].astype(str)
+    
+    # Menampilkan DataFrame di Streamlit
+    with st.expander('Kode Pos di Jawa Barat'):
+        st.dataframe(final_df, hide_index=True, use_container_width=True)
+        st.caption('Sumber: https://kodepos.co.id/kodepos/jawa-barat')    
+        
+        
 st.caption('Baca Pedoman: https://drive.google.com/file/d/1B37k_35MENcx6MQ5UWmnV-EleC-derH0/view?usp=sharing')
 
 st.divider()
