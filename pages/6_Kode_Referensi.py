@@ -15,6 +15,7 @@ st.divider()
 with st.container(border=True):
 
     st.subheader('KODE REFERENSI')
+    st.warning('Berdasarkan Portal Satu Data Indonesia')
 
     # Daftar opsi dan URL yang sesuai
     pilihan = {
