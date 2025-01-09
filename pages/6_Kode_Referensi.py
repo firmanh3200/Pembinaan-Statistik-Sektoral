@@ -283,7 +283,52 @@ with st.container(border=True):
         st.dataframe(final_df, hide_index=True, use_container_width=True)
         st.caption('Sumber: https://kodepos.co.id/kodepos/jawa-barat')    
         
+    with st.expander('Kode Wilayah Jawa Barat'):
+        wilayah = {
+                    'Nama':['Bogor', 'Sukabumi', 'Cianjur', 'Bandung', 'Garut', 'Tasikmalaya', 'Ciamis',
+                        'Kuningan', 'Cirebon', 'Majalengka', 'Sumedang', 'Indramayu', 'Subang', 'Purwakarta',
+                        'Karawang', 'Bekasi', 'Bandung Barat', 'Pangandaran', 'Kota Bogor', 'Kota Sukabumi',
+                        'Kota Bandung', 'Kota Cirebon', 'Kota Bekasi', 'Kota Depok', 'Kota Cimahi',
+                        'Kota Tasikmalaya', 'Kota Banjar'],
+                    'Kode':['3201', '3202', '3203', '3204', '3205', '3206', '3207', '3208', '3209', '3210', 
+                            '3211', '3212', '3213', '3214', '3215', '3216', '3217', '3218', '3271', '3272',
+                            '3273', '3274', '3275', '3276', '3277', '3278', '3279']
+                }
         
+        df2 = pd.DataFrame(wilayah)
+
+        # Mengambil daftar nama untuk opsi selectbox
+        pilihan = df2['Nama'].tolist()
+
+        # Membuat selectbox
+        wilayah_terpilih = st.selectbox('Pilih Kabupaten/Kota:', pilihan)
+
+        # Mengambil kode berdasarkan nama yang dipilih
+        kodewilayah = df2.loc[df2['Nama'] == wilayah_terpilih, 'Kode'].values[0]
+
+        url2 = f'https://data.jabarprov.go.id/api-backend/bigdata/disdukcapil_2/od_18275_jumlah_penduduk_berdasarkan_desakelurahan_v1?limit=1000&skip=0&where={{"bps_kode_kabupaten_kota":["{kodewilayah}"]}}'
+
+        response = requests.get(url2)
+        
+        data2 = response.json()
+        
+        df3 = pd.DataFrame(data2['data'])
+        df3 = df3[['kode_provinsi', 'nama_provinsi', 'bps_kode_kabupaten_kota', 'bps_nama_kabupaten_kota',
+                   'bps_kode_kecamatan', 'bps_nama_kecamatan', 'kemendagri_kode_kecamatan', 
+                   'kemendagri_nama_kecamatan', 'kemendagri_kode_desa_kelurahan',
+                   'kemendagri_nama_desa_kelurahan', 'bps_kode_desa_kelurahan', 'bps_nama_desa_kelurahan']]
+        df3 = df3.astype(str)
+                
+        kec = df3['bps_nama_kecamatan'].unique()
+        kec2 = st.selectbox('Filter Kecamatan', kec)
+        
+        if kec2:
+            df4 =df3[df3['bps_nama_kecamatan'] == kec2]
+            
+            st.dataframe(df4, hide_index=True, use_container_width=True)
+        
+            st.caption('Sumber: https://opendata.jabarprov.go.id/id/dataset/jumlah-penduduk-berdasarkan-desakelurahan-di-jawa-barat')
+
 st.caption('Baca Pedoman: https://drive.google.com/file/d/1B37k_35MENcx6MQ5UWmnV-EleC-derH0/view?usp=sharing')
 
 st.divider()
