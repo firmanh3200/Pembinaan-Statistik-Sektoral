@@ -7,7 +7,7 @@ st.set_page_config(layout='wide')
 with st.container(border=True):
     with st.container(border=True):
         with st.container(border=True):
-            st.title('... :green[PLISS] :orange[Nganjang] ...')
+            
 
             st.subheader(':green[Portal Literasi dan Identifikasi Statistik Sektoral] \
                         dalam rangka :orange[Nganjang Jabar Caang]', divider='rainbow')
