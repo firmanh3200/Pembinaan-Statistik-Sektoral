@@ -72,6 +72,7 @@ st.write('28. Panduan Penyusunan Metadata Statistik Ketahanan Pangan 2021, \
 st.write('29. https://sipd.go.id/ewalidata/54050dab11e0f218cf632ec8478dbc71755a65e7/?m=public_dssd_tabel')
 st.write('30. https://jdih.jabarprov.go.id/page/produk_hukum/12/')
 st.write('31. https://jdih.web.bps.go.id/public/index.php')
+st.write('31. Petunjuk Teknis Pembinaan Statistik Sektoral')
 
 st.divider()
 st.caption('Tim PSS @BPS Provinsi Jawa Barat')
