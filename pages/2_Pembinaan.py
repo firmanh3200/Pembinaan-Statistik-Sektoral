@@ -3,12 +3,60 @@ import streamlit as st
 st.set_page_config(layout='wide')
 
 with st.container(border=True):
-    with st.container(border=True):
-        with st.container(border=True):
-            
-
-            st.subheader(':green[Portal Literasi dan Identifikasi Statistik Sektoral] \
+    st.subheader(':green[Portal Literasi dan Identifikasi Statistik Sektoral] \
                         dalam rangka :orange[Nganjang Jabar Caang]', divider='rainbow')
+
+kol1, kol2 = st.columns(2)
+with kol1:
+    with st.container(border=True):
+        st.success('Statistik Sektoral adalah statistik yang pemanfaatannya  ditujukan untuk memenuhi kebutuhan instansi tertentu dalam rangka penyelenggaraan tugas-tugas pemerintahan dan pembangunan yang merupakan tugas pokok instansi yang bersangkutan.')
+    
+with kol2:
+    with st.container(border=True):
+        st.warning('Pembinaan Statistik Sektoral adalah kegiatan atau aktivitas yang dilakukan oleh Badan Pusat Statistik untuk memberikan pemahaman tentang penyelenggaraan statistik pada Instansi Pusat dan Pemerintah Daerah.')
+
+with st.container(border=True):        
+    with st.expander('Tugas Pembina Data Provinsi/Kabupaten/Kota'):
+        st.info('1. Memberikan rekomendasi dalam proses perencanaan pengumpulan data; dan')
+        st.warning('2. Melakukan pembinaan penyelenggaraan Satu Data Indonesia tingkat daerah sesuai dengan peraturan perundang-undangan.')
+        
+    with st.expander('Tugas Anggota Tim Pembina'):
+        st.write('a. mengikuti pelatihan/workshop/rapat atau kegiatan sejenis lainnya dalam rangka penguatan kapasitas sebagai pembina statistik sektoral;')
+        st.write('b. membantu koordinator dalam melakukan internalisasi terkait pembinaan;')
+        st.write('c. menyelenggarakan pembinaan statistik sektoral dalam mewujudkan Sistem Statistik Nasional;')
+        st.write('d. mengimplementasikan penerapan Satu Data Indonesia dan proses bisnis statistik terstandar;')
+        st.write('e. melakukan koordinasi, kolaborasi, dan kerjasama dalam pembinaan statistik sektoral, baik dengan internal maupun eksternal BPS;')
+        st.write('f. mendokumentasikan kegiatan pembinaan statistik sektoral pada Aplikasi Pembinaan Statistik Sektoral; dan')
+        st.write('g. melaksanakan tugas lain yang diberikan oleh Ketua Pelaksana dan/atau Koordinator Tim Pembina.')
+        
+    with st.expander('Materi Wajib Pembinaan'):
+        st.subheader(':green[Materi Wajib Pembinaan]')
+        kol2a, kol2b, kol2c, kol2d, kol2e = st.columns(5)
+        with kol2a:
+            st.success('Satu Data Indonesia')
+        with kol2b:
+            st.info('Sistem Statistik Nasional')
+        with kol2c:
+            st.warning('Kualitas Data')
+        with kol2d:
+            st.info('Proses Bisnis Statistik')
+        with kol2e:
+            st.success('Kelembagaan')
+            
+    with st.expander('Cakupan Pembinaan'):
+        st.write('Idealnya pembinaan dilakukan terhadap seluruh kegiatan statistik yang ada pada lokus pembinaan. Namun ketika kegiatan statistik yang berada pada lokus pembinaan terlalu banyak, maka pembinaan statistik sektoral dapat diprioritaskan pada:')
+        st.write('1. Kegiatan statistik yang menghasilkan data prioritas;')
+        st.write('2. Kegiatan statistik yang menghasilkan indikator pembangunan;')
+        st.write('3. Kegiatan statistik yang terkait dengan kegiatan BPS;')
+        st.write('4. Kegiatan statistik yang dikandidatkan menjadi lokus EPSS; dan/atau')
+        st.write('5. Kegiatan statistik lainnya sesuai kebutuhan lokus pembinaan.')
+        
+    with st.expander('Pembinaan Inisiatif BPS'):
+        st.write('1. Melakukan koordinasi dengan lokus pembinaan;')
+        st.write('2. Menyusun rencana kerja pembinaan;')
+        st.write('3. Identifikasi kegiatan statistik sektoral;')
+        st.write('4. Penentuan dua kegiatan prioritas pembinaan statistik sektoral;')
+        st.write('5. Melaksanakan Pembinaan.')
 
 st.divider()
 with st.container(border=True):
